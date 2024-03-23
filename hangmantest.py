@@ -37,7 +37,6 @@ mysteryWord = apiRandomWord
 life = 3
 
 charsOfSelectedWord = np.array(list(mysteryWord))
-selectedChars = []
 
 # (Optional) loops to add whitespace between chars
 remainingChars = ""
@@ -59,12 +58,11 @@ mysteryWord = '_ '*len(mysteryWord)
 def checker(ins):
   global mysteryWord,selectedChars,remainingChars,life
   
-  if ins in selectedChars:
+  #if its not in remainingChars then its already picked
+  if ins not in remainingChars:
     return "Letter \'"+ins.upper()+"\' already picked. Pick another letter"
   
-  # puts input letter to selectedChars Container
   # removes input letter from remainingChars Container
-  selectedChars.append(ins)
   remainingChars = remainingChars.replace(ins,'')
 
   '''
