@@ -11,7 +11,6 @@ import numpy as np
     -----(Optional)
     @selectedChars = container for already picked letters
     @remainingChars = container for letter still not picked
-
 '''
 listofWords = ["dogss","catsss","miceseses"]
 mysteryWord = random.choice(listofWords)
