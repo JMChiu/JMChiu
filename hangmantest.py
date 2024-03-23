@@ -1,6 +1,13 @@
 import random
 import string
 import numpy as np
+import requests
+import os
+
+# too lazy to think of a word, just gets a random word from an api i search
+api = "https://random-word-api.herokuapp.com/word"
+getResponse = requests.get(api)
+apiRandomWord = getResponse.json()[0].lower()
 
 '''
   Initialization
@@ -12,8 +19,11 @@ import numpy as np
     @selectedChars = container for already picked letters
     @remainingChars = container for letter still not picked
 '''
-listofWords = ["dogss","catsss","miceseses"]
-mysteryWord = random.choice(listofWords)
+listofUserSpecifiedWords = ["dogss","catsss","miceseses"]
+
+# mysteryWord = random.choice(listofUserSpecifiedWords)
+mysteryWord = apiRandomWord
+
 life = 3
 
 charsOfSelectedWord = np.array(list(mysteryWord))
@@ -40,7 +50,7 @@ def checker(ins):
   global mysteryWord,selectedChars,remainingChars,life
   
   if ins in selectedChars:
-    return "Letter already picked. Pick another letter"
+    return "Letter \'"+ins.upper()+"\' already picked. Pick another letter"
   
   # puts input letter to selectedChars Container
   # removes input letter from remainingChars Container
@@ -75,21 +85,39 @@ def checker(ins):
     for index in indices:
       newList[index*2] = ins.upper()
     mysteryWord = "".join(newList)
+    return ""
   else:
     life -= 1
-    return "Letter not in word"
+    return "Letter \'"+ins.upper()+"\' not in word"
 
+'''
+  @userIn = the user input
+  (userIn.isalpha) is used to check if it is a user input is an alphabet albeit uppercase or lower
+  but i set it to lowercase so its uniform to prevent case error
 
-
+  @outp = its for Message
+'''
+outp = ""
 while life > 0:
+  os.system('cls')
+  # if outp != None:  
+  print(outp+"\n")
   print("Life: "+str(life)+"\nGuess the Word:\n"+mysteryWord+"\n")
   userIn = input("Remaining Letter: "+remainingChars+" \n>>>")
   if userIn.isalpha():
     outp = checker(userIn.lower())
-    if outp != None:
-      print(outp)
+    # if outp != None:
+    #   print(outp)
+    if '_' not in mysteryWord:
+      break
+  elif len(userIn) > 1:
+    outp = "Select 1 Letter Only"
   else:
-    print("Letter Only plsz")
+    outp = "Letter Only plsz"
 
-print("YOU LOSE\nThe word is "+("".join(charsOfSelectedWord)).upper())
+print("=================")
+if life > 0:
+  print("Congratulations\nYou Guessed the Word\n"+mysteryWord.replace(" ",""))
+else:
+  print("YOU LOSE\nThe word is "+("".join(charsOfSelectedWord)).upper())
 
