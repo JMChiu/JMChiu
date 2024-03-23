@@ -13,7 +13,7 @@ apiRandomWord = getResponse.json()[0].lower()
   Initialization
     @charsOfSelectedWord = characters of the selected mystery word
       used numpy array for easy grab of index of occurence
-      refer to line 19 and 33
+      refer to line 29 and 83
     @life = tries until game over
     -----(Optional)
     @selectedChars = container for already picked letters
