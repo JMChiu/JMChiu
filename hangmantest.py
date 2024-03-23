@@ -1,13 +1,11 @@
 import random
 import string
+# numpy for easy index search
 import numpy as np
+# request for api get lazy random word search
 import requests
+# os for console clear command
 import os
-
-# too lazy to think of a word, just gets a random word from an api i search
-api = "https://random-word-api.herokuapp.com/word"
-getResponse = requests.get(api)
-apiRandomWord = getResponse.json()[0].lower()
 
 '''
   Initialization
@@ -19,7 +17,17 @@ apiRandomWord = getResponse.json()[0].lower()
     @selectedChars = container for already picked letters
     @remainingChars = container for letter still not picked
 '''
-listofUserSpecifiedWords = ["dogss","catsss","miceseses"]
+
+# too lazy to think of a word, just gets a random word from an api
+api = "https://random-word-api.herokuapp.com/word"
+getResponse = requests.get(api)
+apiRandomWord = getResponse.json()[0].lower()
+
+
+listofUserSpecifiedWords = ["paste","your","random","words","here"]
+
+#### apiRandomWord for random from api or 
+#### listofUserSpecifiedWords for User Specified Words and pick a random
 
 # mysteryWord = random.choice(listofUserSpecifiedWords)
 mysteryWord = apiRandomWord
