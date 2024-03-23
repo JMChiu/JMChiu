@@ -11,7 +11,7 @@ import os
   Initialization
     @charsOfSelectedWord = characters of the selected mystery word
       used numpy array for easy grab of index of occurence
-      refer to line 29 and 83
+      refer to line 39 and 93
     @life = tries until game over
     -----(Optional)
     @selectedChars = container for already picked letters
@@ -22,7 +22,9 @@ import os
 api = "https://random-word-api.herokuapp.com/word"
 getResponse = requests.get(api)
 apiRandomWord = getResponse.json()[0].lower()
-
+#Feature - free api get word definition
+defApi = "https://api.dictionaryapi.dev/api/v2/entries/en/"+apiRandomWord
+defin = requests.get(defApi).json()
 
 listofUserSpecifiedWords = ["paste","your","random","words","here"]
 
@@ -99,29 +101,39 @@ def checker(ins):
     return "Letter \'"+ins.upper()+"\' not in word"
 
 '''
+  Just a function that shows word definition if it is available on the api
+  created a funtion to prevent code redundancy since its called on more than one instance
+'''
+def defPrint():
+  global defin
+  try:
+    if defin[0] != None:
+      for arr in list(defin)[0]['meanings']:
+        print(arr['partOfSpeech']+" - "+arr['definitions'][0]['definition'])
+  except:
+    print("No Definitions Found")
+
+'''
   @userIn = the user input
   (userIn.isalpha) is used to check if it is a user input is an alphabet albeit uppercase or lower
   but i set it to lowercase so its uniform to prevent case error
+  (len(userIn) > 1) checks if its more than 1 character then prints error
 
   @outp = its for Message
 '''
 outp = ""
 while life > 0:
   os.system('cls')
-  # if outp != None:  
+  defPrint()
   print(outp+"\n")
   print("Life: "+str(life)+"\nGuess the Word:\n"+mysteryWord+"\n")
   userIn = input("Remaining Letter: "+remainingChars+" \n>>>")
-  if userIn.isalpha():
+  if userIn.isalpha() and len(userIn) == 1:
     outp = checker(userIn.lower())
-    # if outp != None:
-    #   print(outp)
     if '_' not in mysteryWord:
       break
-  elif len(userIn) > 1:
-    outp = "Select 1 Letter Only"
   else:
-    outp = "Letter Only plsz"
+    outp = "wrong input"
 
 print("=================")
 if life > 0:
@@ -129,3 +141,4 @@ if life > 0:
 else:
   print("YOU LOSE\nThe word is "+("".join(charsOfSelectedWord)).upper())
 
+defPrint()
