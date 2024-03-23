@@ -35,7 +35,6 @@ mysteryWord = '_ '*len(mysteryWord)
 
     @ins = selected letter
     global vars = outside vars need to be declared as global for the func to gain access to them
-
 '''
 def checker(ins):
   global mysteryWord,selectedChars,remainingChars,life
@@ -69,7 +68,6 @@ def checker(ins):
       subtract life by 1 
     (life -= 1) is the same as (life = life - 1)
       googled it, its called Compound Assignment or Augmented Assignment
-
   '''
   if ins in charsOfSelectedWord:
     indices = np.where(charsOfSelectedWord == ins)[0]
